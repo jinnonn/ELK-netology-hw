@@ -20,6 +20,10 @@
 
 *Приведите скриншот интерфейса Kibana на странице http://<ip вашего сервера>:5601/app/dev_tools#/console, где будет выполнен запрос GET /_cluster/health?pretty*.
 
+### Решение 2.
+
+![image](https://github.com/jinnonn/ELK-netology-hw/assets/146999555/bbc81b65-b426-4bdb-a61d-3d3e830105f2)
+
 ---
 
 ### Задание 3. Logstash
