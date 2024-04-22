@@ -44,20 +44,30 @@ services:
     volumes:
       - /home/jinon/ELK-netology-hw/pipeline/:/usr/share/logstash/pipeline/
       - /home/jinon/ELK-netology-hw/settings/:/usr/share/logstash/config/
+      - nginx-logs:/nginx-logs/
     ports:
       - 5140:5140
+      - 9600:9600
     networks:
       - elk
+    depends_on:
+      - elasticsearch
+      - kibana
 
   nginx:
     container_name: nginx
     image: nginx
     volumes:
       - /home/jinon/ELK-netology-hw/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - nginx-logs:/var/log/nginx
     ports:
       - 8080:8080
     networks:
       - elk
+    depends_on:
+      - elasticsearch
+      - kibana
+      - logstash
 
   filebeat:
     image: elastic/filebeat:7.17.9
@@ -67,11 +77,14 @@ services:
       - /home/jinon/ELK-netology-hw/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - /var/lib/docker:/var/lib/docker:ro
       - /var/run/docker.sock:/var/run/docker.sock
+      - nginx-logs:/nginx-logs/
     networks:
       - elk
 
 volumes:
   elasticsearch-data:
+    driver: local
+  nginx-logs:
     driver: local
 
 networks:
